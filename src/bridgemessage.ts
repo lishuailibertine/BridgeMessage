@@ -1,6 +1,7 @@
 import jsHost from "./jshost";
-import { callback } from "./callbacks";
-class BridgeMessage{
+import { callback, callbacks } from "./callbacks";
+import IdGenerator from "./IdGenerator";
+export class BridgeMessage{
     private handlerName: string;
     constructor(handlerName: string){
         this.handlerName = handlerName;
@@ -8,14 +9,14 @@ class BridgeMessage{
     }
     public sendMessage(method: any,params: any) : Promise<any>{
         return new Promise((resolve, reject) => {
-           let messageId = method + "_" + Date.now();
+           let messageId = method + "_" + IdGenerator.text(16);
            console.log("Request->",messageId, params ? params : {})
            var input ={
                Method :method,
                Params :params,
                MessageId: messageId
            };
-           callback[messageId] = {reject,resolve}
+           callbacks[messageId] = {reject,resolve}
            if (jsHost.ios){
                window["webkit"].messageHandlers[this.handlerName].postMessage(JSON.stringify(input))
            }else if(jsHost.android){
@@ -30,4 +31,3 @@ class BridgeMessage{
         Object.assign(window, methodObject);
     }
 }
-export default BridgeMessage;

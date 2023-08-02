@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/IdGenerator.ts":
+/*!****************************!*\
+  !*** ./src/IdGenerator.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nclass IdGenerator {\n    static rand() {\n        const arr = new Uint32Array(1);\n        window.crypto.getRandomValues(arr);\n        return arr[0] / (0xffffffff + 1);\n    }\n    /***\n     * Generates a random string of specified size\n     * @param size - The length of the string to generate\n     * @returns {string} - The generated random string\n     */\n    static text(size = 32) {\n        let text = \"\";\n        const possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";\n        for (let i = 0; i < size; i++)\n            text += possible.charAt(Math.floor(IdGenerator.rand() * possible.length));\n        return text;\n    }\n}\nexports[\"default\"] = IdGenerator;\n\n\n//# sourceURL=webpack://bridgemessage/./src/IdGenerator.ts?");
+
+/***/ }),
+
 /***/ "./src/bridgemessage.ts":
 /*!******************************!*\
   !*** ./src/bridgemessage.ts ***!
   \******************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst jshost_1 = __webpack_require__(/*! ./jshost */ \"./src/jshost.ts\");\nconst callbacks_1 = __webpack_require__(/*! ./callbacks */ \"./src/callbacks.ts\");\nclass BridgeMessage {\n    constructor(handlerName) {\n        this.handlerName = handlerName;\n        this.addCallback();\n    }\n    sendMessage(method, params) {\n        return new Promise((resolve, reject) => {\n            let messageId = method + \"_\" + Date.now();\n            console.log(\"Request->\", messageId, params ? params : {});\n            var input = {\n                Method: method,\n                Params: params,\n                MessageId: messageId\n            };\n            callbacks_1.callback[messageId] = { reject, resolve };\n            if (jshost_1.default.ios) {\n                window[\"webkit\"].messageHandlers[this.handlerName].postMessage(JSON.stringify(input));\n            }\n            else if (jshost_1.default.android) {\n                window[this.handlerName].postMessage(JSON.stringify(input));\n            }\n            else {\n                window[this.handlerName + \"Callback\"](messageId, \"Invalid host\");\n            }\n        });\n    }\n    addCallback() {\n        const methodObject = { [this.handlerName + \"Callback\"]: callbacks_1.callback };\n        Object.assign(window, methodObject);\n    }\n}\nexports[\"default\"] = BridgeMessage;\n\n\n//# sourceURL=webpack://bridgemessage/./src/bridgemessage.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.BridgeMessage = void 0;\nconst jshost_1 = __webpack_require__(/*! ./jshost */ \"./src/jshost.ts\");\nconst callbacks_1 = __webpack_require__(/*! ./callbacks */ \"./src/callbacks.ts\");\nconst IdGenerator_1 = __webpack_require__(/*! ./IdGenerator */ \"./src/IdGenerator.ts\");\nclass BridgeMessage {\n    constructor(handlerName) {\n        this.handlerName = handlerName;\n        this.addCallback();\n    }\n    sendMessage(method, params) {\n        return new Promise((resolve, reject) => {\n            let messageId = method + \"_\" + IdGenerator_1.default.text(16);\n            console.log(\"Request->\", messageId, params ? params : {});\n            var input = {\n                Method: method,\n                Params: params,\n                MessageId: messageId\n            };\n            callbacks_1.callbacks[messageId] = { reject, resolve };\n            if (jshost_1.default.ios) {\n                window[\"webkit\"].messageHandlers[this.handlerName].postMessage(JSON.stringify(input));\n            }\n            else if (jshost_1.default.android) {\n                window[this.handlerName].postMessage(JSON.stringify(input));\n            }\n            else {\n                window[this.handlerName + \"Callback\"](messageId, \"Invalid host\");\n            }\n        });\n    }\n    addCallback() {\n        const methodObject = { [this.handlerName + \"Callback\"]: callbacks_1.callback };\n        Object.assign(window, methodObject);\n    }\n}\nexports.BridgeMessage = BridgeMessage;\n\n\n//# sourceURL=webpack://bridgemessage/./src/bridgemessage.ts?");
 
 /***/ }),
 
@@ -26,7 +36,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\ncons
   \**************************/
 /***/ ((__unused_webpack_module, exports) => {
 
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.callback = void 0;\nlet callbacks = new Array();\nfunction callback(messageId, error, result) {\n    for (var key in callbacks) {\n        if (key == messageId) {\n            console.log(\"Callback->\", messageId, error ? error : result);\n            error ? callbacks[key].reject(new Error(error)) : callbacks[key].resolve(result);\n            delete callbacks[key];\n            break;\n        }\n    }\n}\nexports.callback = callback;\n;\n\n\n//# sourceURL=webpack://bridgemessage/./src/callbacks.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.callback = exports.callbacks = void 0;\nexports.callbacks = new Array();\nfunction callback(messageId, error, result) {\n    console.log(\"response->\", messageId, error ? error : result);\n    for (var key in exports.callbacks) {\n        if (key == messageId) {\n            error ? exports.callbacks[key].reject(new Error(error)) : exports.callbacks[key].resolve(result);\n            delete exports.callbacks[key];\n            break;\n        }\n    }\n}\nexports.callback = callback;\n;\n\n\n//# sourceURL=webpack://bridgemessage/./src/callbacks.ts?");
 
 /***/ }),
 

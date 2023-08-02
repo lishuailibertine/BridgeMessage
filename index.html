@@ -24,7 +24,7 @@
 <script src="/Users/lishuai/Documents/GitHub/BridgeMessage/dist/index.js"></script>
 <script type="text/javascript">
     function sendMessage(){
-        window.BridgeMessage.sendMessage("method","hello world").then(function(message){ 
+        window["BridgeMessage"].sendMessage("method","hello world").then(function(message){ 
             document.write('success：' + message); 
         }).catch(function onRejected(error){
              document.write('error:' + error); 
