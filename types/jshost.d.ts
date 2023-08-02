@@ -1,0 +1,23 @@
+declare const jshost: {
+    trident: boolean;
+    presto: boolean;
+    webKit: boolean;
+    gecko: boolean;
+    mobile: boolean;
+    ios: boolean;
+    android: boolean;
+    iPhone: boolean;
+    iPad: boolean;
+    iPod: boolean;
+    webApp: boolean;
+    wx: boolean;
+    nokia: boolean;
+    pcwx: boolean;
+    pc: boolean;
+    ie: boolean;
+    x5: boolean;
+    weibo: boolean;
+    iphoneX: boolean;
+    iphone5: boolean;
+};
+export default jshost;

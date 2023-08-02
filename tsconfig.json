@@ -1,0 +1,25 @@
+{
+    // 更改此项以匹配您的项目
+    "include": ["src/**/*"],
+  
+    "compilerOptions": {
+      "module":"CommonJS",
+      "target": "ES2015",
+      // 告诉 TypeScript 读取 JS 文件，如
+      // 通常它们作为源文件被忽略
+      "allowJs": true,
+      // 生成d.ts文件
+      "declaration": true,
+      // 这个编译器运行应该
+      // 只输出 d.ts 文件
+      "emitDeclarationOnly": false,
+      // 类型应该进入这个目录。
+      // 删除它会放置 .d.ts 文件
+      // 在 .js 文件旁边
+      "outDir": "types",
+      // 使用 IDE 函数时转到 js 文件，例如
+      // VSCode 中的“转到定义”
+      // "declarationMap": true
+    }
+  }
+  // cli npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types
