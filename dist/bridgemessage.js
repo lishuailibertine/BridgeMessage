@@ -11,7 +11,7 @@ class BridgeMessage {
     }
     sendMessage(method, params) {
         return new Promise((resolve, reject) => {
-            let messageId = method + "_" + IdGenerator_1.default.text(16);
+            let messageId = IdGenerator_1.default.text();
             console.log("Request->", messageId, params ? params : {});
             var input = {
                 Method: method,

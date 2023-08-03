@@ -9,8 +9,8 @@ export class BridgeMessage{
     }
     public sendMessage(method: any,params: any) : Promise<any>{
         return new Promise((resolve, reject) => {
-           let messageId = method + "_" + IdGenerator.text(16);
-           console.log("Request->",messageId, params ? params : {})
+           let messageId = IdGenerator.text();
+           console.log("Request->",method, messageId, params ? params : {})
            var input ={
                Method :method,
                Params :params,
