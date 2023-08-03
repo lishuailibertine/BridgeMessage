@@ -20,8 +20,8 @@
 <body>
     <button onclick="sendMessage()" class="button" style="display:block;margin:0 auto;">Test Send Message</button>
 </body>
-
-<script src="/Users/lishuai/Documents/GitHub/BridgeMessage/dist/index.js"></script>
+<script>var exports = {};</script>
+<script type="module" src="/Users/lishuai/Documents/GitHub/BridgeMessage/dist/index.js"></script>
 <script type="text/javascript">
     function sendMessage(){
         window["BridgeMessage"].sendMessage("method","hello world").then(function(message){ 

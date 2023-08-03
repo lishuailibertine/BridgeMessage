@@ -4,19 +4,22 @@
   
     "compilerOptions": {
       "module":"CommonJS",
-      "target": "ES2015",
+      "target": "ES6",
       // 告诉 TypeScript 读取 JS 文件，如
       // 通常它们作为源文件被忽略
-      "allowJs": true,
+      // "allowJs": true,
       // 生成d.ts文件
       "declaration": true,
+      // "declarationMap":true,
+      // "allowJs": true,
       // 这个编译器运行应该
       // 只输出 d.ts 文件
-      "emitDeclarationOnly": false,
+      // "emitDeclarationOnly": false,
       // 类型应该进入这个目录。
       // 删除它会放置 .d.ts 文件
       // 在 .js 文件旁边
-      "outDir": "types",
+      "outDir": "dist",
+      "declarationDir":"types",
       // 使用 IDE 函数时转到 js 文件，例如
       // VSCode 中的“转到定义”
       // "declarationMap": true

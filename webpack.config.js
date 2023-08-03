@@ -7,7 +7,7 @@ module.exports = {
   entry: path.resolve(__dirname, './src/index.ts'),
   // 指定打包文件的目录
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: "index.js"
   },
   // 指定 webpack 打包时要使用模块
